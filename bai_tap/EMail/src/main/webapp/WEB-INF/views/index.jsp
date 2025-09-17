@@ -16,10 +16,10 @@
         <form:options items="${languages}"/>
     </form:select> <br>
     <b>Page Size: </b>
-    <p>Show <form:select path="pageSize">
+    Show <form:select path="pageSize">
                 <form:options items="${pageSizes}"  />
             </form:select> emails per page
-    </p> <br>
+    <br>
     <b>Spams filter</b>
     <form:checkbox path="spamFilter" /> Enable spam filter<br>
     <b>Signature</b>
