@@ -10,5 +10,5 @@ public interface IProductService {
     boolean update(int id, Product product);
     boolean delete(int id);
     Product findById(int id);
-    List<Product> findByName(String name, Product product);
+//    List<Product> findByName(String name, Product product);
 }
