@@ -44,5 +44,10 @@ public class ProductController {
         return "redirect:/products";
     }
 
-
+    @GetMapping("/detail/{id}")
+    public String productDetails(@PathVariable(name = "id") int id, Model model) {
+        Product product = productService.findById(id);
+        model.addAttribute("product", product);
+        return "/product/detail";
+    }
 }

@@ -16,6 +16,7 @@
       <th>Price</th>
       <th>Category</th>
       <th>Quantity</th>
+      <th>Action</th>
     </tr>
     <tr  th:each="product : ${productList}">
       <td th:text="${product.id}"></td>
@@ -24,6 +25,9 @@
       <td th:text="${product.productPrice}"></td>
       <td th:text="${product.productCategory}"></td>
       <td th:text="${product.productQuantity}"></td>
+      <td>
+        <a th:href="@{products/detail/__${product.id}__}">Detail</a>
+      </td>
     </tr>
   </table>
 </body>
