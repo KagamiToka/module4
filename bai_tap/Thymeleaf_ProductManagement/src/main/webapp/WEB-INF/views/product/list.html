@@ -27,6 +27,7 @@
       <td th:text="${product.productQuantity}"></td>
       <td>
         <a th:href="@{products/detail/__${product.id}__}">Detail</a>
+        <a th:href="@{products/update/__${product.id}__}">Edit</a>
       </td>
     </tr>
   </table>

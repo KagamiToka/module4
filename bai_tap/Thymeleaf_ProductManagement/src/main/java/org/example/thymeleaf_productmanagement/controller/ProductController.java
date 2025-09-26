@@ -50,4 +50,20 @@ public class ProductController {
         model.addAttribute("product", product);
         return "/product/detail";
     }
+
+    @GetMapping("/update")
+    public String updateProduct(Model model, @RequestParam(name = "id") int id) {
+        Product product = productService.findById(id);
+        model.addAttribute("product", product);
+        return "/product/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateProduct(@ModelAttribute(name = "product") Product product,
+                                @PathVariable(name = "id")  int id,
+                                RedirectAttributes redirectAttributes) {
+        productService.update(id,product);
+        redirectAttributes.addFlashAttribute("mess", "Update product successfully");
+        return "redirect:/products";
+    }
 }

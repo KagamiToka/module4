@@ -1,11 +1,11 @@
 package org.example.thymeleaf_productmanagement.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.example.thymeleaf_productmanagement.entity.Product;
-import org.example.thymeleaf_productmanagement.utils.ConnectionUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,27 +13,23 @@ import java.util.List;
 
 @Repository
 public class ProductRepository implements  IProductRepository {
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public List<Product> findAll() {
         List<Product> productList = new ArrayList<>();
-        Session session = ConnectionUtil.sessionFactory.openSession();
-        TypedQuery<Product> query = session.createQuery("from Product", Product.class);
+        TypedQuery<Product> query = em.createQuery("from Product", Product.class);
         productList = query.getResultList();
-        session.close();
         return productList;
     }
 
+    @Transactional
     @Override
     public boolean add(Product product) {
-        Session session = ConnectionUtil.sessionFactory.openSession();
-        Transaction transaction = session.getTransaction();
         try {
-            transaction.begin();
-            session.persist(product);
-            transaction.commit();
+            em.persist(product);
         } catch (Exception e) {
-            transaction.rollback();
             return false;
         }
         return true;
@@ -41,20 +37,15 @@ public class ProductRepository implements  IProductRepository {
 
     @Override
     public boolean update(int id, Product product) {
-        Session session = ConnectionUtil.sessionFactory.openSession();
-        Transaction transaction = session.getTransaction();
         try {
-            transaction.begin();
             Product productUpdate = findById(id);
             productUpdate.setProductName(product.getProductName());
             productUpdate.setProductDescription(product.getProductDescription());
             productUpdate.setProductPrice(product.getProductPrice());
             productUpdate.setProductCategory(product.getProductCategory());
             productUpdate.setProductQuantity(product.getProductQuantity());
-            session.merge(productUpdate);
-            transaction.commit();
+            em.merge(productUpdate);
         }catch (Exception e) {
-            transaction.rollback();
             return false;
         }
         return true;
@@ -62,15 +53,10 @@ public class ProductRepository implements  IProductRepository {
 
     @Override
     public boolean delete(int id) {
-        Session session = ConnectionUtil.sessionFactory.openSession();
-        Transaction transaction = session.getTransaction();
         try {
-            transaction.begin();
             Product productUpdate = findById(id);
-            session.remove(productUpdate);
-            transaction.commit();
+            em.remove(productUpdate);
         }catch (Exception e) {
-            transaction.rollback();
             return false;
         }
         return true;
@@ -78,9 +64,7 @@ public class ProductRepository implements  IProductRepository {
 
     @Override
     public Product findById(int id) {
-        Session session = ConnectionUtil.sessionFactory.openSession();
-        Product product = session.find(Product.class, id);
-        session.close();
+        Product product = em.find(Product.class, id);
         return product;
     }
 
