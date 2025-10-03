@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+  <meta charset="UTF-8">
+  <title>Blogs</title>
+  <th:block th:insert="~{layout/layout::library}"> </th:block>
+</head>
+<body>
+<div th:replace="~{layout/layout::header}"></div>
+  Author : <span th:text="${blog.author}"></span>
+  Content : <p th:text="${blog.content}"></p>
+</body>
+</html>
