@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+    <meta charset="UTF-8">
+    <title>Blogs</title>
+    <th:block th:insert="~{layout/layout::library}"> </th:block>
+</head>
+<body>
+<div th:replace="~{layout/layout::header}"></div>
+<form action="/blogs/edit" method="post" th:object="${blog}">
+    <input type="hidden" th:field="*{id}" />
+    Title: <input type="text" placeholder="enter title" th:field="*{title}">
+    Content: <textarea placeholder="enter content" th:field="*{content}"></textarea>
+    Author: <input type="text" placeholder="enter author" th:field="*{author}">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

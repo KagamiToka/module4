@@ -42,8 +42,31 @@ public class BlogController {
     @GetMapping("/search")
     public ModelAndView search(@RequestParam(name = "searchName") String searchname) {
         ModelAndView mav = new ModelAndView("blog/list");
-        mav.addObject("blogs", blogService.findAllByAuthorContaining(searchname));
+        if (searchname == null || searchname.trim().isEmpty()) {
+            mav.addObject("blogs", blogService.findAll());
+        } else {
+            mav.addObject("blogs", blogService.findAllByAuthorContaining(searchname));
+        }
         return mav;
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam(name = "id") int id) {
+        blogService.delete(blogService.findById(id));
+        return "redirect:/blogs";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable(name = "id") int id , Model model) {
+        Blog blog = blogService.findById(id);
+        model.addAttribute("blog", blog);
+        return "blog/edit";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute(name = "blog") Blog blog) {
+        blogService.save(blog);
+        return "redirect:/blogs";
     }
 
 
