@@ -7,8 +7,8 @@
 <body>
     <div th:replace="~{layout/layout::header}"></div>
     <a href="blogs/add">Add new Blog</a>
-    <form th:action="@{blogs/search}" method="get">
-      <input name="searchName" type="text" placeholder="Author">
+    <form action="/blogs" method="get">
+      <input th:value="${searchName}" name="searchName" type="text" placeholder="Author">
       <button type="submit">Search</button>
     </form>
     <table class="table table-striped">
@@ -16,13 +16,15 @@
         <th>ID</th>
         <th>Title</th>
         <th>Author</th>
+        <th>Category</th>
         <th>View</th>
         <th>Action</th>
       </tr>
-      <tr  th:each="blog : ${blogs}">
+      <tr  th:each="blog : ${blogPage.content}">
         <td th:text="${blog.id}"></td>
         <td th:text="${blog.title}"></td>
         <td th:text="${blog.author}"></td>
+        <td th:text="${blog.category.name}"></td>
         <td>
           <a th:href="@{blogs/detail/__${blog.id}__}">Details</a>
         </td>
@@ -38,6 +40,9 @@
         </td>
       </tr>
     </table>
+    <a th:if="${blogPage.hasPrevious()}" th:href="@{/blogs(page=${blogPage.number -1},searchName=${searchName})}">Trước</a>
+    <span th:text="${blogPage.number+1}"></span>/<span th:text="${blogPage.totalPages}"></span>
+    <a th:if="${blogPage.hasNext()}" th:href="@{/blogs(page=${blogPage.number +1},searchName=${searchName})}">Sau</a>
 
 <!--Modal-->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

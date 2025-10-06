@@ -10,6 +10,11 @@
         Title: <input type="text" placeholder="enter title" th:field="*{title}">
         Content: <textarea placeholder="enter content" th:field="*{content}"></textarea>
         Author: <input type="text" placeholder="enter author" th:field="*{author}">
+        Category
+        <select th:field="*{category}">
+            <option value="">---Chọn lớp------</option>
+            <option th:each="cate:${category}" th:value="${cate.id}" th:text="${cate.name}"></option>
+        </select><br>
         <button type="submit">Submit</button>
     </form>
 </body>

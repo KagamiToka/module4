@@ -11,14 +11,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Blog {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String title;
-    private String content;
-    private String author;
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private String name;
 }
