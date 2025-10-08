@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+    <meta charset="UTF-8">
+    <title>Blogs</title>
+    <th:block th:insert="~{layout/layout::library}"> </th:block>
+</head>
+<body>
+    <div th:replace="~{layout/layout::header}"></div>
+    <a href="/users/add">Add new User</a>
+    <table class="table table-striped">
+      <tr>
+        <th>ID</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Age</th>
+        <th>Email</th>
+      </tr>
+      <tr  th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.firstName}"></td>
+        <td th:text="${u.lastName}"></td>
+        <td th:text="${u.age}"></td>
+        <td th:text="${u.email}"></td>
+      </tr>
+    </table>
+</body>
+</html>
