@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+    <meta charset="UTF-8">
+    <title>Blogs</title>
+    <th:block th:insert="~{layout/layout::library}"> </th:block>
+</head>
+<body>
+    <div th:replace="~{layout/layout::header}"></div>
+    <a href="/songs/add">Add new User</a>
+    <table class="table table-striped">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Artist</th>
+        <th>Type</th>
+        <th>Action</th>
+      </tr>
+      <tr  th:each="song : ${songs}">
+        <td th:text="${song.id}"></td>
+        <td th:text="${song.title}"></td>
+        <td th:text="${song.artist}"></td>
+        <td th:text="${song.type}"></td>
+        <td><a th:href="@{/songs/edit/__${song.id}__}">Edit</a></td>
+      </tr>
+    </table>
+</body>
+</html>
