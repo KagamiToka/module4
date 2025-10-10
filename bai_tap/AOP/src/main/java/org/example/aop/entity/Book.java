@@ -1,4 +1,4 @@
-package org.example.validation.entity;
+package org.example.aop.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,12 +14,11 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Song {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String title;
-    private String artist;
-    private String type;
-
+    private String author;
+    private int quantity;
 }

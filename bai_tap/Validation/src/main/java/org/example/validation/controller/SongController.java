@@ -1,10 +1,13 @@
 package org.example.validation.controller;
 
+import org.example.validation.dto.SongDTO;
 import org.example.validation.entity.Song;
 import org.example.validation.service.ISongService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +32,14 @@ public class SongController {
     }
 
     @PostMapping("/add")
-    public String addSong(Song song) {
-        songService.addSong(song);
+    public String addSong(@ModelAttribute(name = "song") Song song, BindingResult result, Model model) {
+        new SongDTO().validate(song, result);
+        if (result.hasErrors()) {
+            return "song/add";
+        }
+        Song song1 = new Song();
+        BeanUtils.copyProperties(song, song1);
+        songService.addSong(song1);
         return "redirect:/songs";
     }
 

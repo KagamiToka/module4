@@ -1,7 +1,9 @@
 package org.example.validation.controller;
 
+import org.example.validation.dto.UserDTO;
 import org.example.validation.entity.User;
 import org.example.validation.service.IUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,19 +28,21 @@ public class UserController {
 
     @GetMapping("/add")
     public String showAdd(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDTO());
         return "user/add";
     }
 
     @PostMapping("/add")
-    public String addUser(@Validated @ModelAttribute("user") User user,
+    public String addUser(@Validated @ModelAttribute("user") UserDTO user,
                           BindingResult result,
                           Model model) {
-        new User().validate(user, result);
+        new UserDTO().validate(user, result);
         if (result.hasErrors()) {
             return "user/add";
         }
-        userService.save(user);
+        User user1 = new User();
+        BeanUtils.copyProperties(user, user1);
+        userService.save(user1);
         return "redirect:/users";
     }
 }
