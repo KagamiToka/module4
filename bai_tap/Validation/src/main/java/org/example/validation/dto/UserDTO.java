@@ -29,9 +29,9 @@ public class UserDTO implements Validator {
             errors.rejectValue("lastName", null, "Last name is required");
         } else if (user.getAge() < 18) {
             errors.rejectValue("age", null, "Age need to be equal or greater than 18");
-        } else if (user.firstName.length() > 4 && user.firstName.length() < 46) {
+        } else if (user.getFirstName().length() > 4 && user.getFirstName().length() < 46) {
             errors.rejectValue("firstName", null, "First name has to be between 4 and 46 characters");
-        } else if (user.lastName.length() > 4 && user.lastName.length() < 46) {
+        } else if (user.getLastName().length() > 4 && user.getLastName().length() < 46) {
             errors.rejectValue("lastName", null, "Last name has to be between 4 and 46 characters");
         }
     }

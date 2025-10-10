@@ -7,11 +7,11 @@
 <body>
 <div th:replace="~{layout/layout::header}"></div>
 <form action="/songs/edit" method="post" th:object="${song}">
-  FirstName: <input type="text"  th:field="*{title}"><br>
+  Title: <input type="text"  th:field="*{title}"><br>
   <small class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small><br>
-  LastName: <input type="text"  th:field="*{artist}"> <br>
+  Artist: <input type="text"  th:field="*{artist}"> <br>
   <small class="text-danger" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}"></small><br>
-  Age: <input type="number"  th:field="*{type}"> <br>
+  Type: <input type="text"  th:field="*{type}"> <br>
   <small class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></small><br>
   <button type="submit">Submit</button>
 </form>
