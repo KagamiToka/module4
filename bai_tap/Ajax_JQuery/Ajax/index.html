@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <script src="index.js"></script>
+    <script src="jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<!--    <form id="add-blog">-->
+        Title: <input id="title" placeholder="enter title"><br>
+        Description: <input id="description" placeholder="enter content"> <br>
+        Author: <input id="author" placeholder="enter author"><br>
+        Category: <select id="categoryId">
+            <option value="1">Đời sống</option>
+            <option value="2">Kinh tế</option>
+            <option value="3">Quân sự</option>
+        </select>
+        <button id="btn-save">Save</button>
+<!--    </form>-->
+<!--    <div id="div-btn">-->
+<!--        <button onclick="displayFormCreate()" id="display-create">➕ Create New</button>-->
+<!--    </div>-->
+  <h1 id="head">Blog List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Author</th>
+      </tr>
+    </thead>
+    <tbody id="content">
+
+    </tbody>
+  </table>
+  <button id="btn-more">Xem thêm</button>
+
+<script>
+  $(document).ready(function () {
+    let page = 0;
+    display();
+    $('#btn-more').click(displayMore);
+    $('#btn-save').click(save());
+
+    function save() {
+      let title = $('#title').val();
+      let description = $('#description').val();
+      let author = $('#author').val();
+      let categoryId = $('#categoryId').val();
+      const blog = {
+            title,
+            description,
+            author,
+            category: {
+                id: categoryId
+            }
+        }
+        console.log(blog);
+      $.ajax({
+          url: `http://localhost:8080/v1/api/blogs`,
+          dataType: 'json',
+          type: 'POST',
+          data: JSON.stringify(blog),
+          complete: function ( data, textStatus, res){
+              console.log("thêm mới thành công")
+              console.log(res.status);
+              page=0;
+              display();
+          },
+          error: function (res){
+              console.log("-----------lỗi---------")
+              console.log(res.status)
+          }
+      })
+    }
+
+    function displayMore() {
+      page++;
+      display();
+    }
+
+    function display() {
+      $.ajax({
+        url: `http://localhost:8080/v1/api/blogs?page=${page}`,
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+          console.log("------data------------");
+          let content ="";
+          for (let i = 0; i <data.content.length ; i++) {
+            content +=`    <tr>
+                              <td>${data.content[i].id}</td>
+                              <td>${data.content[i].title}</td>
+                              <td>${data.content[i].content}</td>
+                              <td>${data.content[i].category.name}</td>
+                              <td>${data.content[i].author}</td>
+                          </tr>`
+          }
+          $("#content").append(content)
+          console.log(data);
+          console.log(textStatus)
+          console.log(res.status)
+        },
+        error: function (res){
+          console.log("-----------lỗi---------")
+          console.log(res.status)
+        }
+      });
+    }
+
+
+  })
+
+  function displayFormCreate() {
+      document.getElementById('add-blog').style.display = "block";
+      document.getElementById('display-create').style.display = "none";
+  }
+</script>
+</body>
+</html>

@@ -14,4 +14,5 @@ public interface IBlogService {
     void delete(Blog blog);
     boolean update(Blog blog);
     Blog findById(int id);
+    Page<Blog> findAll(Pageable pageable);
 }

@@ -54,4 +54,9 @@ public class BlogService implements IBlogService {
     public Blog findById(int id) {
         return blogRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Page<Blog> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable);
+    }
 }
